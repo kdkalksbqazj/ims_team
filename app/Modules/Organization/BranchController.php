@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Modules\Organization;
 
-use Illuminate\Http\Request;
-
+use App\Http\Controllers\Controller;
 use App\Models\Branch;
 use Illuminate\Http\Request;
 
@@ -15,7 +14,7 @@ class BranchController extends Controller
     public function index()
     {
         $branches = Branch::all();
-        return view('branches.index', compact('branches'));
+        return view('modules.organization.branches.index', compact('branches'));
     }
 
     /**
@@ -23,7 +22,7 @@ class BranchController extends Controller
      */
     public function create()
     {
-        return view('branches.create');
+        return view('modules.organization.branches.create');
     }
 
     /**
@@ -46,7 +45,7 @@ class BranchController extends Controller
      */
     public function show(Branch $branch)
     {
-        return view('branches.show', compact('branch'));
+        return view('modules.organization.branches.show', compact('branch'));
     }
 
     /**
@@ -54,7 +53,7 @@ class BranchController extends Controller
      */
     public function edit(Branch $branch)
     {
-        return view('branches.edit', compact('branch'));
+        return view('modules.organization.branches.edit', compact('branch'));
     }
 
     /**

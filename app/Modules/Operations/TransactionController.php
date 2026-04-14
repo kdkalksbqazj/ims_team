@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Modules\Operations;
 
+use App\Http\Controllers\Controller;
 use App\Events\StockUpdated;
 use App\Models\Transaction;
 use App\Models\Product;
@@ -18,7 +19,7 @@ class TransactionController extends Controller
     public function index()
     {
         $transactions = Transaction::with(['product', 'branch', 'user'])->latest()->paginate(20);
-        return view('transactions.index', compact('transactions'));
+        return view('modules.operations.transactions.index', compact('transactions'));
     }
 
     /**
@@ -28,7 +29,7 @@ class TransactionController extends Controller
     {
         $products = Product::all();
         $branches = Branch::all();
-        return view('transactions.create', compact('products', 'branches'));
+        return view('modules.operations.transactions.create', compact('products', 'branches'));
     }
 
     /**
@@ -92,6 +93,6 @@ class TransactionController extends Controller
      */
     public function show(Transaction $transaction)
     {
-        return view('transactions.show', compact('transaction'));
+        return view('modules.operations.transactions.show', compact('transaction'));
     }
 }

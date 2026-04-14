@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Modules\Catalog;
 
-use Illuminate\Http\Request;
-
+use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -15,7 +14,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
-        return view('products.index', compact('products'));
+        return view('modules.catalog.products.index', compact('products'));
     }
 
     /**
@@ -23,7 +22,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('products.create');
+        return view('modules.catalog.products.create');
     }
 
     /**
@@ -48,7 +47,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        return view('products.show', compact('product'));
+        return view('modules.catalog.products.show', compact('product'));
     }
 
     /**
@@ -56,7 +55,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        return view('products.edit', compact('product'));
+        return view('modules.catalog.products.edit', compact('product'));
     }
 
     /**

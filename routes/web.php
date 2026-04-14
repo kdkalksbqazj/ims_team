@@ -1,10 +1,10 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\BranchController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\TransactionController;
-use App\Http\Controllers\DashboardController;
+use App\Modules\IAM\ProfileController;
+use App\Modules\Organization\BranchController;
+use App\Modules\Catalog\ProductController;
+use App\Modules\Operations\TransactionController;
+use App\Modules\Analytics\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {

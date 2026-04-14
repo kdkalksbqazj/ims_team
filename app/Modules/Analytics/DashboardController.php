@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Modules\Analytics;
 
+use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Branch;
 use App\Models\Transaction;
@@ -37,6 +38,6 @@ class DashboardController extends Controller
                 ->get();
         }
 
-        return view('dashboard', compact('totalProducts', 'totalBranches', 'recentTransactions', 'lowStockItems'));
+        return view('modules.analytics.dashboard', compact('totalProducts', 'totalBranches', 'recentTransactions', 'lowStockItems'));
     }
 }
