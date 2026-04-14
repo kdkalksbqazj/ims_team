@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\BranchController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\TransactionController;
-use App\Http\Controllers\DashboardController;
+use App\Modules\IAM\ProfileController;
+use App\Modules\Organization\BranchController;
+use App\Modules\Catalog\ProductController;
+use App\Modules\Catalog\CategoryController;
+use App\Modules\Operations\TransactionController;
+use App\Modules\Analytics\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -19,6 +20,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('branches', BranchController::class);
+    Route::resource('categories', CategoryController::class);
     Route::resource('products', ProductController::class);
     Route::resource('transactions', TransactionController::class);
 });
