@@ -10,8 +10,8 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-use App\Models\Product;
-use App\Models\Branch;
+use App\Modules\Catalog\Models\Product;
+use App\Modules\Organization\Models\Branch;
 
 class StockUpdated implements ShouldBroadcast
 {

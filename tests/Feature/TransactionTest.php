@@ -2,10 +2,10 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
-use App\Models\Product;
-use App\Models\Branch;
-use App\Models\Transaction;
+use App\Modules\IAM\Models\User;
+use App\Modules\Catalog\Models\Product;
+use App\Modules\Organization\Models\Branch;
+use App\Modules\Operations\Models\Transaction;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
