@@ -9,15 +9,21 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
+                    @if ($errors->any())
+                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                            <span class="block font-semibold">Please review the highlighted fields.</span>
+                        </div>
+                    @endif
+
                     <form action="{{ route('transactions.store') }}" method="POST">
                         @csrf
                         <div class="mb-4">
                             <label for="type" class="block text-gray-700 text-sm font-bold mb-2">Transaction Type:</label>
                             <select name="type" id="type" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required onchange="toggleToBranch()">
-                                <option value="in">Stock In</option>
-                                <option value="out">Stock Out</option>
-                                <option value="transfer">Transfer</option>
-                                <option value="adjustment">Adjustment</option>
+                                <option value="in" {{ old('type') === 'in' ? 'selected' : '' }}>Stock In</option>
+                                <option value="out" {{ old('type') === 'out' ? 'selected' : '' }}>Stock Out</option>
+                                <option value="transfer" {{ old('type') === 'transfer' ? 'selected' : '' }}>Transfer</option>
+                                <option value="adjustment" {{ old('type') === 'adjustment' ? 'selected' : '' }}>Adjustment</option>
                             </select>
                             @error('type')
                                 <p class="text-red-500 text-xs italic">{{ $message }}</p>
@@ -27,8 +33,11 @@
                         <div class="mb-4">
                             <label for="product_id" class="block text-gray-700 text-sm font-bold mb-2">Product:</label>
                             <select name="product_id" id="product_id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                                <option value="">Select Product</option>
                                 @foreach ($products as $product)
-                                    <option value="{{ $product->id }}">{{ $product->name }} ({{ $product->sku }})</option>
+                                    <option value="{{ $product->id }}" {{ (string) old('product_id') === (string) $product->id ? 'selected' : '' }}>
+                                        {{ $product->name }} ({{ $product->sku }})
+                                    </option>
                                 @endforeach
                             </select>
                             @error('product_id')
@@ -39,8 +48,11 @@
                         <div class="mb-4">
                             <label for="branch_id" class="block text-gray-700 text-sm font-bold mb-2">Branch (From/Current):</label>
                             <select name="branch_id" id="branch_id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                                <option value="">Select Branch</option>
                                 @foreach ($branches as $branch)
-                                    <option value="{{ $branch->id }}">{{ $branch->name }}</option>
+                                    <option value="{{ $branch->id }}" {{ (string) old('branch_id') === (string) $branch->id ? 'selected' : '' }}>
+                                        {{ $branch->name }}
+                                    </option>
                                 @endforeach
                             </select>
                             @error('branch_id')
@@ -53,7 +65,9 @@
                             <select name="to_branch_id" id="to_branch_id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                                 <option value="">Select Branch</option>
                                 @foreach ($branches as $branch)
-                                    <option value="{{ $branch->id }}">{{ $branch->name }}</option>
+                                    <option value="{{ $branch->id }}" {{ (string) old('to_branch_id') === (string) $branch->id ? 'selected' : '' }}>
+                                        {{ $branch->name }}
+                                    </option>
                                 @endforeach
                             </select>
                             @error('to_branch_id')
@@ -63,7 +77,7 @@
 
                         <div class="mb-4">
                             <label for="quantity" class="block text-gray-700 text-sm font-bold mb-2">Quantity:</label>
-                            <input type="number" name="quantity" id="quantity" min="1" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                            <input type="number" name="quantity" id="quantity" min="1" value="{{ old('quantity') }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
                             @error('quantity')
                                 <p class="text-red-500 text-xs italic">{{ $message }}</p>
                             @enderror
@@ -71,7 +85,7 @@
 
                         <div class="mb-4">
                             <label for="notes" class="block text-gray-700 text-sm font-bold mb-2">Notes:</label>
-                            <textarea name="notes" id="notes" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+                            <textarea name="notes" id="notes" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">{{ old('notes') }}</textarea>
                             @error('notes')
                                 <p class="text-red-500 text-xs italic">{{ $message }}</p>
                             @enderror
@@ -93,13 +107,17 @@
         function toggleToBranch() {
             const type = document.getElementById('type').value;
             const container = document.getElementById('to_branch_container');
+            const toBranch = document.getElementById('to_branch_id');
             if (type === 'transfer') {
                 container.classList.remove('hidden');
-                document.getElementById('to_branch_id').required = true;
+                toBranch.required = true;
             } else {
                 container.classList.add('hidden');
-                document.getElementById('to_branch_id').required = false;
+                toBranch.required = false;
+                toBranch.value = '';
             }
         }
+
+        document.addEventListener('DOMContentLoaded', toggleToBranch);
     </script>
 </x-app-layout>
